@@ -1,3 +1,6 @@
+from cs-module-project-hash-tables.lecture import hashed_string
+
+
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -11,64 +14,58 @@ class HashTableEntry:
 # Hash table can't have fewer than this many slots
 MIN_CAPACITY = 8
 
-
 class HashTable:
     """
     A hash table that with `capacity` buckets
     that accepts string keys
-
-    Implement this.
     """
-
     def __init__(self, capacity):
-        # Your code here
-
+        # capacity need to be greater than assigned min
+        if MIN_CAPACITY <= capacity:
+            return None
+        self.capacity = capacity
+        self.buckets = [[] for i in range(capacity)]
 
     def get_num_slots(self):
         """
-        Return the length of the list you're using to hold the hash
-        table data. (Not the number of items stored in the hash table,
-        but the number of slots in the main list.)
-
-        One of the tests relies on this.
-
-        Implement this.
+        Return the length of the list you're using to hold the hash table data. (aka, the number of slots in the main list.) 
         """
-        # Your code here
-
+        return len(self.buckets)
 
     def get_load_factor(self):
         """
         Return the load factor for this hash table.
-
-        Implement this.
         """
-        # Your code here
-
+        # The load factor is the number of keys stored in the hash table divided by the capacity
+        return self.buckets/self.capacity
 
     def fnv1(self, key):
         """
         FNV-1 Hash, 64-bit
-
         Implement this, and/or DJB2.
         """
-
-        # Your code here
-
+        FNV_offset_basis = 14695981039346656037 
+        FNV_prime = 1099511628211
+        hash = FNV_offset_basis
+        for b in key:
+            hash = hash * FNV_prime
+            # bitwise XOR
+            hash = b ^ hash 
+        return hash
 
     def djb2(self, key):
         """
         DJB2 hash, 32-bit
-
         Implement this, and/or FNV-1.
         """
-        # Your code here
-
+        hash = 5381
+        for c in key:
+            hash = (hash * 33) + ord(c)
+        return hash
 
     def hash_index(self, key):
         """
-        Take an arbitrary key and return a valid integer index
-        between within the storage capacity of the hash table.
+        Take an arbitrary key and return a valid integer index between within the storage capacity of the hash table.
         """
         #return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
@@ -76,46 +73,36 @@ class HashTable:
     def put(self, key, value):
         """
         Store the value with the given key.
-
         Hash collisions should be handled with Linked List Chaining.
-
-        Implement this.
         """
-        # Your code here
-
+        # hash the key
+        hash = self.hash_index(key)
+        # store value in that bucket
+        self.buckets[hash] = value
 
     def delete(self, key):
         """
         Remove the value stored with the given key.
-
         Print a warning if the key is not found.
-
-        Implement this.
         """
-        # Your code here
-
+        hash = self.hash_index(key)
+        self.buckets[key] = None
 
     def get(self, key):
         """
         Retrieve the value stored with the given key.
-
         Returns None if the key is not found.
-
-        Implement this.
         """
-        # Your code here
-
+        hash = self.hash_index(key)
+        return self.buckets[hash]
 
     def resize(self, new_capacity):
         """
         Changes the capacity of the hash table and
         rehashes all key/value pairs.
-
-        Implement this.
         """
-        # Your code here
-
-
+        pass
+        
 
 if __name__ == "__main__":
     ht = HashTable(8)
