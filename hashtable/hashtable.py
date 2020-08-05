@@ -28,11 +28,13 @@ class HashTable:
         (aka, the number of slots being used.) 
         """
         # number of used slots = capacity - the empty entry
-        empty_counts = 0
-        for slot in self.slots:
-            if slot == []:
-                empty_counts += 1
-        return self.capacity - empty_counts
+        # empty_counts = 0
+        # for slot in self.slots:
+        #     if slot == []:
+        #         empty_counts += 1
+        # return self.capacity - empty_counts
+        
+        return self.capacity
 
     def get_load_factor(self):
         """
@@ -139,7 +141,7 @@ class HashTable:
             prev = curr
             curr = curr.next
         
-        
+      
 
     def get(self, key):
         """
