@@ -11,3 +11,8 @@ with open("input.txt") as f:
 # TODO: construct 5 random sentences
 # Your code here
 
+stopped = False
+stop_sign = "?.!"
+
+while not stopped:
+    
